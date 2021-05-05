@@ -15,6 +15,8 @@ class StackSpider(Spider):
             "http://floodlist.com/asia/",
             ]
             self.page_number = 1
+            self.start_date_temp = start_date
+            self.end_date_temp = end_date
             self.start_date = start_date.split('/')
             self.end_date = end_date.split('/')
             self.start_year = self.start_date[0]
@@ -70,12 +72,15 @@ class StackSpider(Spider):
 
 
                         
-                        if  self.start_date < dat < self.end_date:
+                        if  self.start_date <= dat <= self.end_date:
 
-                            item['flood'] = flood
+                            desc_link = article.css('.entry-title a::attr(href)').extract()
+
+                            item['start_date'] = self.start_date_temp
+                            item['end_date'] = self.end_date_temp
                             item['date'] = dattemp
                             item['country'] = c
-                            desc_link = article.css('.entry-title a::attr(href)').extract()
+                            item['weblink'] = desc_link
                             cookies = dict(pair.split('=') for pair in self._cookie_str.split('; '))
                             yield response.follow(desc_link[0], self.parse_description, meta = {'item': item.copy(), 'main_url': response.url}, cookies=cookies, headers={'User-Agent': self._user_agent})
 

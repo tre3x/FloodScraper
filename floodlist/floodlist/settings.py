@@ -64,7 +64,7 @@ CONCURRENT_REQUESTS=32
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'floodlist.pipelines.FloodlistPipeline': 300,
+   'floodlist.floodlist.pipelines.JsonWriterPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -88,4 +88,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-DUPEFILTER_CLASS = 'scraper.duplicate_filter.CustomFilter'
+
+SPIDER_MODULES = ['floodlist.floodlist.spiders']
+NEWSPIDER_MODULE = 'floodlist.floodlist.spiders'
+LOG_ENABLED=False

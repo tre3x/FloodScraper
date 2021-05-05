@@ -4,7 +4,7 @@ from selenium.webdriver.firefox.options import Options
 def getcookie(url):
     options = Options()
     options.headless = True
-    driver = webdriver.Firefox(options=options, executable_path=r'/home/tre3x/Python/scrapy/tutorial/floodlist/floodlist/geckodriver')
+    driver = webdriver.Firefox(options=options, executable_path=r'/geckodriver', log_path='/../geckologs/geckodriver.log')
     driver.get(url)
     cookie = driver.get_cookies()
     driver.quit()
