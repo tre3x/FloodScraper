@@ -28,20 +28,17 @@ class StackSpider(Spider):
 
             self._cookie_str = getcookie(self.start_urls[0])
 
-            self._user_agent = 'Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0'
+            self._user_agent = 'Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'
 
         def start_requests(self):
-            
             cookies = dict(pair.split('=') for pair in self._cookie_str.split('; '))
             print(cookies)
             return [Request(url=url, cookies=cookies, headers={'User-Agent': self._user_agent})
                     for url in self.start_urls]
 
         def parse(self, response):
-            
             item = FloodlistItem()
             articles = response.css('article.page-article')
-
             for article in articles:
                 flood = article.css('.entry-title a::text').extract()
                 dat = article.css('span::text').extract()[0]

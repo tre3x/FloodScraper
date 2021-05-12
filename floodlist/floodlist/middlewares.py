@@ -107,7 +107,6 @@ class FloodlistDownloaderMiddleware:
 
 
 class CustomFilter(RFPDupeFilter):
-"""A dupe filter that considers specific ids in the url"""
 
     def __getid(self, url):
         mm = url.split("&refer")[0] #or something like that

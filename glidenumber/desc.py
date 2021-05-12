@@ -13,7 +13,7 @@ def descriptionscrap(cont, startdate, enddate):
     options = Options()
     options.headless = True
 
-    driver = webdriver.Firefox(options = options, executable_path=r'/geckodriver', log_path='/geckologs/geckodriver.log')
+    driver = webdriver.Firefox(options = options, executable_path=r'/home/tre3x/Python/iitr/floodscraping/glidenumber/geckodriver', log_path='/home/tre3x/Python/iitr/floodscraping/glidenumber/geckologs/geckodriver.log')
     driver.get('https://glidenumber.net/glide/public/search/search.jsp')
 
 
@@ -25,7 +25,7 @@ def descriptionscrap(cont, startdate, enddate):
             countrycode = option.get_attribute('value')
 
     driver.execute_script("tab = document.getElementById('level1'); tab.value = '" + str(countrycode) + "';" )
-    driver.execute_script("tab = document.getElementById('events'); tab.value = 'FL' ")
+    driver.execute_script("tab = document.getElementById('events'); tab.options[10].selected = true; tab.options[11].selected = true; tab.options[0].selected = false; ")
 
     startyear = driver.find_element_by_xpath("/html/body/table[2]/tbody/tr[3]/td[1]/table/tbody/tr[7]/td[2]/input[1]")
     startmonth = driver.find_element_by_xpath("/html/body/table[2]/tbody/tr[3]/td[1]/table/tbody/tr[7]/td[2]/input[2]")
@@ -48,7 +48,7 @@ def descriptionscrap(cont, startdate, enddate):
     try:
         numresult = driver.find_element_by_xpath('/html/body/table[2]/tbody/tr[3]/td[1]/table/tbody/tr[11]/td/table[2]/tbody/tr[2]/td/table/tbody/tr/td')
         numresult = int(numresult.text.split(' ')[0])
-        file = open('/home/tre3x/Python/iitr/floodscraping/dataglide.jl', 'a')
+        file = open('/home/tre3x/Python/iitr/floodscraping/datajapanglide.jl', 'a')
         
         for i in range(2, numresult + 2):
                 details = {}
@@ -61,9 +61,11 @@ def descriptionscrap(cont, startdate, enddate):
                 line = json.dumps(details) + "\n"
                 file.write(line)
         file.close()
+        driver.quit()
+        return details
                 
     except NoSuchElementException:
+        driver.quit()
         pass
     
-    driver.quit()
 

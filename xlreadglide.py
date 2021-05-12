@@ -1,14 +1,16 @@
 import xlrd, datetime
 from glidenumber.desc import descriptionscrap
 
-loc = ("/dataglide.xlsx")
+loc = ("data.xlsx")
 
 wb = xlrd.open_workbook(loc)
-sheet = wb.sheet_by_index(1)
+sheet = wb.sheet_by_index(4)
 
 start_date_list = []
 end_date_list = []
  
+items = []
+
 for i in range(1, sheet.nrows):
     
     start_date = xlrd.xldate_as_tuple(sheet.cell_value(i, 7), wb.datemode) 
@@ -18,5 +20,8 @@ for i in range(1, sheet.nrows):
     end_date = str(end_date[0]) + "/" + str(end_date[1]) + "/" + str(end_date[2])
 
     country = sheet.cell_value(i, 2)
-    
-    descriptionscrap(country, start_date, end_date)
+    item = descriptionscrap(country, start_date, end_date)
+    if item is not None:
+        items.append(item) 
+
+print(items)
