@@ -3,7 +3,6 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.firefox.options import Options
-import json
 
 
 def descriptionscrap(cont, startdate, enddate):
@@ -48,7 +47,7 @@ def descriptionscrap(cont, startdate, enddate):
     try:
         numresult = driver.find_element_by_xpath('/html/body/table[2]/tbody/tr[3]/td[1]/table/tbody/tr[11]/td/table[2]/tbody/tr[2]/td/table/tbody/tr/td')
         numresult = int(numresult.text.split(' ')[0])
-        file = open('/home/tre3x/Python/iitr/floodscraping/datajapanglide.jl', 'a')
+        
         
         for i in range(2, numresult + 2):
                 details = {}
@@ -58,9 +57,6 @@ def descriptionscrap(cont, startdate, enddate):
                 details['country'] = cont
                 details['desc'] = desc.text
 
-                line = json.dumps(details) + "\n"
-                file.write(line)
-        file.close()
         driver.quit()
         return details
                 
