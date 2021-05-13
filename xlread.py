@@ -1,6 +1,8 @@
 import xlrd, datetime
 from floodlist.call import Scraper
 from floodlist.floodlist.pipelines import items
+import json
+from itemadapter import ItemAdapter
 
 loc = ("data.xlsx")
 
@@ -27,4 +29,19 @@ for i in range(sheet.nrows - 2, sheet.nrows):
 scraper = Scraper(start_date_list, end_date_list, countrylist)
 scraper.run_spiders()
 
-print(items)
+
+
+'''
+##############################################################
+ITEMS ARE NOW AVAILABLE AS LIST OF DICTIONARIES IN THIS FILE
+##############################################################
+'''
+
+
+for item in items:
+        file = open('datas.jl', 'a')
+        line = json.dumps(ItemAdapter(item).asdict()) + "\n"
+        file.write(line)
+
+file.close()
+
