@@ -33,11 +33,11 @@ scraper.run_spiders()
 
 '''
 ##############################################################
-ITEMS ARE NOW AVAILABLE AS LIST OF DICTIONARIES IN THIS FILE
+#ITEMS ARE NOW AVAILABLE AS LIST OF DICTIONARIES IN THIS FILE#
 ##############################################################
 '''
 
-
+print(items)
 for item in items:
         file = open('datas.jl', 'a')
         line = json.dumps(ItemAdapter(item).asdict()) + "\n"
