@@ -1,1 +1,0 @@
-{"start-date": "2016/12/31", "end-date": "2017/2/7", "country": "Thailand", "desc": "Widespread flooding in Thailand's south has killed 21 people, hit rubber production in the region and shut down infrastructure. "}
