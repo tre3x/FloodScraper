@@ -1,4 +1,5 @@
 **/__pycache__
 geckodriver.log
 .~lock.data.xlsx#
-data*.xlsx
+data.xlsx
+data*.jl
