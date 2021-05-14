@@ -38,10 +38,10 @@ class StackSpider(Spider):
             self.inpcountry = re.sub('[^0-9a-zA-Z]+', '', inpcountry)                  
             self.inpcountry = re.sub(r'(?<=[a-z])-(?=[a-z])', '', self.inpcountry)            #RESTRUCTURING COUNTRYNAME TO SUITABLE FORM
 
-            self._cookie_str = getcookie(self.start_urls[0])           
+            self._cookie_str = getcookie(self.start_urls[0])[0]           
             self.cookies = dict(pair.split('=') for pair in self._cookie_str.split('; ')) #OBTAIN COOKIES OF THE URL FOR FURTHER USE
             
-            self._user_agent = 'Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'    #HEADER FILES
+            self._user_agent = getcookie(self.start_urls[0])[1]    #HEADER FILES
 
         def start_requests(self):
 

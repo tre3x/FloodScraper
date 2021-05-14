@@ -27,5 +27,7 @@ def getcookie(url):
     
     driver.get(url)
     cookie = driver.get_cookies()
+    useragent = driver.execute_script("return navigator.userAgent")
+
     driver.quit()
-    return (cookie[0]['name'] + "=" + cookie[0]['value'])
+    return [cookie[0]['name'] + "=" + cookie[0]['value'], useragent]
