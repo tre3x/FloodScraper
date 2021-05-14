@@ -1,13 +1,15 @@
+import os
 import xlrd, datetime
-from floodlist.call import Scraper
-from floodlist.floodlist.pipelines import items
+from .floodlist.call import Scraper
+from .floodlist.floodlist.pipelines import items
 import json
 from itemadapter import ItemAdapter
 
 
 def getdetails():
 
-    loc = ("data.xlsx")
+    here = os.path.dirname(os.path.abspath(__file__))
+    loc = os.path.join(here, "data.xlsx")
     wb = xlrd.open_workbook(loc)
     sheet = wb.sheet_by_index(1)
 
@@ -37,6 +39,7 @@ def getdetails():
     ##############################################################
     '''
 
+    print(items)
     for item in items:
             file = open('dataflood.jl', 'a')
             line = json.dumps(ItemAdapter(item).asdict()) + "\n"

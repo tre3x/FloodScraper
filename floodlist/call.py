@@ -1,8 +1,8 @@
 
 import scrapy
 from scrapy.crawler import CrawlerProcess
-from floodlist.floodlist.spiders.floodspider import StackSpider
-from scrapy.utils.project import get_project_settings
+from .floodlist.spiders.floodspider import StackSpider
+from .floodlist.settings import Settings
 from twisted.internet import reactor, defer
 from scrapy.utils.log import configure_logging
 import xlrd, datetime
@@ -21,10 +21,11 @@ class Scraper:
         self.start_date = start_date
         self.end_date = end_date
         configure_logging()
-
-        settings_file_path = 'floodlist.floodlist.settings' # The path seen from root
-        os.environ.setdefault('SCRAPY_SETTINGS_MODULE', settings_file_path)
-        self.process = CrawlerProcess(get_project_settings())
+        
+        #settings_file_path = 'floodscraping.floodlist.floodlist.settings' # The path seen from root
+        #os.environ.setdefault('SCRAPY_SETTINGS_MODULE', settings_file_path)
+        #print(get_project_settings())
+        self.process = CrawlerProcess(Settings())
         self.spider = StackSpider  # The spider to be crawled
 
     @defer.inlineCallbacks

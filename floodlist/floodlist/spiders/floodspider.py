@@ -6,6 +6,7 @@ import requests
 from ..cookie import getcookie
 from ..dictionary import Country, Month
 import re
+from ..pipelines import JsonWriterPipeline
 from datetime import date
 
 class StackSpider(Spider):
@@ -133,5 +134,5 @@ class StackSpider(Spider):
 
             item= response.meta['item'].copy() 
             item['desc'] = response.css('p~ p+ p::text').extract()
-            yield item
+            JsonWriterPipeline(item)
             yield response.follow( response.meta['main_url'], self.parse, meta = {'item': item})

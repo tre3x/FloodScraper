@@ -1,3 +1,4 @@
+import os
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
@@ -11,7 +12,12 @@ def getcookie(url):
 
     options = Options()
     options.headless = True
-    driver = webdriver.Firefox(options=options, executable_path=r'/home/tre3x/Python/iitr/floodscraping/floodlist/floodlist/geckodriver',log_path='/home/tre3x/Python/iitr/floodscraping/floodlist/geckologs/geckodriver.log')
+
+    here = os.path.dirname(os.path.abspath(__file__))
+    geckoloc = os.path.join(here, "geckodriver")
+    logloc = os.path.join(here, "../geckologs/geckodriver.log")
+    driver = webdriver.Firefox(options = options, executable_path=geckoloc, log_path=logloc)
+    
     driver.get(url)
     cookie = driver.get_cookies()
     driver.quit()

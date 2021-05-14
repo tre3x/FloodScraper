@@ -10,5 +10,5 @@ items = []
 
 class JsonWriterPipeline:
 
-    def process_item(self, item, spider):
+    def __init__(self, item):
         items.append(item)

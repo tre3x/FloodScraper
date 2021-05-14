@@ -9,8 +9,8 @@
 
 BOT_NAME = 'floodlist'
 
-SPIDER_MODULES = ['floodlist.spiders']
-NEWSPIDER_MODULE = 'floodlist.spiders'
+SPIDER_MODULES = ['floodlist.floodlist.spiders']
+NEWSPIDER_MODULE = 'floodlist.floodlist.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -89,6 +89,4 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 
-SPIDER_MODULES = ['floodlist.floodlist.spiders']
-NEWSPIDER_MODULE = 'floodlist.floodlist.spiders'
 LOG_ENABLED=False

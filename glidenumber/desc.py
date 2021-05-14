@@ -1,3 +1,4 @@
+import os
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -13,7 +14,10 @@ def descriptionscrap(cont, startdate, enddate):
     options.headless = True
 
     #INITIALIZING SELENIUM WEB DRIVER
-    driver = webdriver.Firefox(options = options, executable_path=r'/home/tre3x/Python/iitr/floodscraping/glidenumber/geckodriver', log_path='/home/tre3x/Python/iitr/floodscraping/glidenumber/geckologs/geckodriver.log')
+    here = os.path.dirname(os.path.abspath(__file__))
+    geckoloc = os.path.join(here, "geckodriver")
+    logloc = os.path.join(here, "geckologs/geckodriver.log")
+    driver = webdriver.Firefox(options = options, executable_path=geckoloc, log_path=logloc)
     driver.get('https://glidenumber.net/glide/public/search/search.jsp')
 
     #GETTING COUNTRY CODES
