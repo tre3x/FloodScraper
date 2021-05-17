@@ -6,7 +6,7 @@ import json
 from itemadapter import ItemAdapter
 
 
-def getdetails():
+def getfloodlist():
 
     here = os.path.dirname(os.path.abspath(__file__))
     loc = os.path.join(here, "data.xlsx")
@@ -39,13 +39,14 @@ def getdetails():
     ##############################################################
     '''
 
-    print(items)
     for item in items:
-            file = open('dataflood.jl', 'a')
+            file = open('datafloodlaos.jl', 'a')
             line = json.dumps(ItemAdapter(item).asdict()) + "\n"
             file.write(line)
 
     file.close()
+
+    return items
 
 if __name__ == '__main__':
     getdetails()

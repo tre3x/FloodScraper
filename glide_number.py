@@ -3,7 +3,7 @@ import xlrd, datetime
 from .glidenumber.desc import descriptionscrap
 import json
 
-def getdetails():
+def getglidenumber():
     
     here = os.path.dirname(os.path.abspath(__file__))
     loc = os.path.join(here, "data.xlsx")
@@ -34,13 +34,14 @@ def getdetails():
     ##############################################################
     '''
 
-    print(items)
     for item in items:
             file = open('dataglide.jl', 'a')
             line = json.dumps(item) + "\n"
             file.write(line)
 
     file.close()
+
+    return items
 
 if __name__ == '__main__':
     getdetails()
