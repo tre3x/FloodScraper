@@ -1,5 +1,4 @@
 import os
-import xlrd, datetime
 from .glidenumber.desc import descriptionscrap
 import json
 

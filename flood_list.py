@@ -1,5 +1,4 @@
 import os
-import xlrd, datetime
 from .floodlist.call import Scraper
 from .floodlist.floodlist.pipelines import items
 import json
