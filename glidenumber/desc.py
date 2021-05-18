@@ -56,20 +56,21 @@ def descriptionscrap(cont, startdate, enddate):
 
     #TRIGGERING SEARCH
     search = driver.find_element_by_xpath('/html/body/table[2]/tbody/tr[3]/td[1]/table/tbody/tr[9]/td[2]/input[1]').click()
+    item = []
 
     try:
         #SCRAPING DETAILS
         numresult = driver.find_element_by_xpath('/html/body/table[2]/tbody/tr[3]/td[1]/table/tbody/tr[11]/td/table[2]/tbody/tr[2]/td/table/tbody/tr/td')
         numresult = int(numresult.text.split(' ')[0])
         
-        
         for i in range(2, numresult + 2):
                 details = {}
                 links = driver.find_element_by_xpath('/html/body/table[2]/tbody/tr[3]/td[1]/table/tbody/tr[11]/td/table[3]/tbody/tr[' + str(i) + ']/td[1]/a')
                 details['links'] = links.get_attribute('href')
+                item.append(details)
 
         driver.quit()
-        return details
+        return item
                 
     except NoSuchElementException:
         driver.quit()
