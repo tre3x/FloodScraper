@@ -65,11 +65,8 @@ def descriptionscrap(cont, startdate, enddate):
         
         for i in range(2, numresult + 2):
                 details = {}
-                desc = driver.find_element_by_xpath('/html/body/table[2]/tbody/tr[3]/td[1]/table/tbody/tr[11]/td/table[3]/tbody/tr[' + str(i) + ']/td[4]')
-                details['start-date'] = '/'.join(startdate)
-                details['end-date'] = '/'.join(enddate)
-                details['country'] = cont
-                details['desc'] = desc.text
+                links = driver.find_element_by_xpath('/html/body/table[2]/tbody/tr[3]/td[1]/table/tbody/tr[11]/td/table[3]/tbody/tr[' + str(i) + ']/td[1]/a')
+                details['links'] = links.get_attribute('href')
 
         driver.quit()
         return details

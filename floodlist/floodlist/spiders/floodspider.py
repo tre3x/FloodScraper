@@ -104,14 +104,15 @@ class StackSpider(Spider):
                             desc_link = article.css('.entry-title a::attr(href)').extract()
                             
                             #ADDING VALUES TO ITEM DICTIONARY
-                            item['start_date'] = self.start_date_temp
-                            item['end_date'] = self.end_date_temp
-                            item['date'] = dattemp
-                            item['country'] = c
+                            #item['start_date'] = self.start_date_temp
+                            #item['end_date'] = self.end_date_temp
+                            #item['date'] = dattemp
+                            #item['country'] = c
                             item['weblink'] = desc_link
 
+                            JsonWriterPipeline(item)
                             #FOLLOWING FLOOD DESCRIPTION PAGE TO SCRAP DESCRIPTION OF FLOOD EVENTS
-                            yield response.follow(desc_link[0], self.parse_description, meta = {'item': item.copy(), 'main_url': response.url}, cookies=self.cookies, headers={'User-Agent': self._user_agent})
+                            #yield response.follow(desc_link[0], self.parse_description, meta = {'item': item.copy(), 'main_url': response.url}, cookies=self.cookies, headers={'User-Agent': self._user_agent})
 
             next_page = response.css('.next::attr(href)').get()
 
@@ -123,16 +124,15 @@ class StackSpider(Spider):
                 self.page_number = self.page_number + 1
                 yield Request(next_page,  cookies=self.cookies, headers={'User-Agent': self._user_agent}, callback = self.parse)
 
-
+        '''
         def parse_description(self, response):
 
-            '''
             ###############################################################################
             #SCRAPING DETAILED DESCRIPTION OF FLOOD EVENTS FROM INDIVIDUAL FOOD EVENT PAGE#
             ###############################################################################
-            ''' 
 
             item= response.meta['item'].copy() 
             item['desc'] = response.css('p~ p+ p::text').extract()
             JsonWriterPipeline(item)
             yield response.follow( response.meta['main_url'], self.parse, meta = {'item': item})
+        '''
