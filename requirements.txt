@@ -1,6 +1,5 @@
 itemadapter==0.2.0
 requests==2.24.0
-xlrd==1.2.0
 Scrapy==2.5.0
 selenium==3.141.0
 Twisted==21.2.0
