@@ -64,7 +64,7 @@ CONCURRENT_REQUESTS=32
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'floodlist.floodlist.pipelines.JsonWriterPipeline': 300,
+   'floodlist.floodlist.pipelines.AppendPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

@@ -5,10 +5,10 @@
 
 
 # useful for handling different item types with a single interface
+from itemadapter import ItemAdapter
 
 items = []
 
-class JsonWriterPipeline:
-
+class AppendPipeline:
     def __init__(self, item):
-        items.append(item)
+        items.append(ItemAdapter(item).asdict())

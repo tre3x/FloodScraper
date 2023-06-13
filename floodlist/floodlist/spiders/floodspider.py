@@ -6,7 +6,7 @@ import requests
 from ..cookie import getcookie
 from ..dictionary import Country, Month
 import re
-from ..pipelines import JsonWriterPipeline
+from ..pipelines import AppendPipeline
 from datetime import date
 
 class StackSpider(Spider):
@@ -37,11 +37,13 @@ class StackSpider(Spider):
 
             self.inpcountry = re.sub('[^0-9a-zA-Z]+', '', inpcountry)                  
             self.inpcountry = re.sub(r'(?<=[a-z])-(?=[a-z])', '', self.inpcountry)            #RESTRUCTURING COUNTRYNAME TO SUITABLE FORM
-
-            self._cookie_str = getcookie(self.start_urls[0])[0]           
+            
+            self._cookie_str = getcookie(self.start_urls[0])[0]     
             self.cookies = dict(pair.split('=') for pair in self._cookie_str.split('; ')) #OBTAIN COOKIES OF THE URL FOR FURTHER USE
             
             self._user_agent = getcookie(self.start_urls[0])[1]    #HEADER FILES
+            print("SCRAPING STARTED!!\n")
+            print("COUNTRY : {} \nSTART DATE : {} \nEND DATE : {}\n".format(self.inpcountry, self.start_date, self.end_date))
 
         def start_requests(self):
 
@@ -49,9 +51,7 @@ class StackSpider(Spider):
             ######################################
             #CREATE INITIAL REQUEST TO THE PAGE#
             ######################################
-            '''               
-
-            print(self.cookies)
+            '''         
             return [Request(url=url, cookies=self.cookies, headers={'User-Agent': self._user_agent}) for url in self.start_urls]
 
 
@@ -61,59 +61,41 @@ class StackSpider(Spider):
             ##############################
             #SCRAPING ITEMS FROM THE PAGE#
             ##############################
-            ''' 
-
+            '''
             item = FloodlistItem()
             articles = response.css('article.page-article')
             for article in articles:
-
                 flood = article.css('.entry-title a::text').extract()
                 dat = article.css('span::text').extract()[0]
                 desc = article.css('.entry-summary p::text').extract()
                 classname = article.xpath('@class').extract()
-    
                 dattemp = dat
                 countries = []
-
-                #SEARCHING FOR CONUTRYNAME IN CLASSNAME OF ARTICLES
-                for word in classname[0].split(' '):
-                    if word[0:3] == 'tag':
-                        for setcountry in Country:
-                            
-                            tempcountry = re.sub('[^0-9a-zA-Z]+', '', setcountry[1])
-                            tempcountry = re.sub(r'(?<=[a-z])-(?=[a-z])', '', tempcountry)
-                            
-                            tempcountrycheck = re.sub('[^0-9a-zA-Z]+', '', word[4:])
-                            tempcountrycheck = re.sub(r'(?<=[a-z])-(?=[a-z])', '', tempcountrycheck)
-
-                            #CHECKING IF THE TAG ELEMENT IS A COUNTRY
-                            if tempcountry.lower() == tempcountrycheck.lower():
-                                countries.append(tempcountrycheck.lower())
-                                break
                 
-                #CHECKING CRITERIA FOR CONDITION SATISFACTION
-                for c in countries:
-                    if self.inpcountry.lower() == c:
-                        dat = dat.replace(',', '')
-                        dat = dat.split(' ')   
-                        dat[1] = Month[dat[1]]
-                        dat = date(int(dat[2]), int(dat[1]), int(dat[0]))
-                        
-                        if  self.start_date <= dat <= self.end_date:
-
-                            desc_link = article.css('.entry-title a::attr(href)').extract()
+                for word in classname[0].split(' '):
+                    if word.split('-')[0] == 'tag':
+                        tagged_str = " ".join(word.split('-')[1:])
+                        if tagged_str.lower() == self.inpcountry.lower():
+                            dat = dat.replace(',', '')
+                            dat = dat.split(' ')   
+                            dat[1] = Month[dat[1]]
+                            dat = date(int(dat[2]), int(dat[1]), int(dat[0]))
                             
-                            #ADDING VALUES TO ITEM DICTIONARY
-                            #item['start_date'] = self.start_date_temp
-                            #item['end_date'] = self.end_date_temp
-                            #item['date'] = dattemp
-                            #item['country'] = c
-                            item['weblink'] = desc_link
+                            if  self.start_date <= dat <= self.end_date:
 
-                            JsonWriterPipeline(item)
-                            #FOLLOWING FLOOD DESCRIPTION PAGE TO SCRAP DESCRIPTION OF FLOOD EVENTS
-                            #yield response.follow(desc_link[0], self.parse_description, meta = {'item': item.copy(), 'main_url': response.url}, cookies=self.cookies, headers={'User-Agent': self._user_agent})
+                                desc_link = article.css('.entry-title a::attr(href)').extract()
+                                #ADDING VALUES TO ITEM DICTIONARY
+                                #item['start_date'] = self.start_date_temp
+                                #item['end_date'] = self.end_date_temp
+                                item['date'] = dattemp
+                                item['country'] = tagged_str
+                                item['weblink'] = desc_link
 
+                                AppendPipeline(item)
+                                #FOLLOWING FLOOD DESCRIPTION PAGE TO SCRAP DESCRIPTION OF FLOOD EVENTS
+                                #yield response.follow(desc_link[0], self.parse_description, meta = {'item': item.copy(), 'main_url': response.url}, cookies=self.cookies, headers={'User-Agent': self._user_agent})
+            
+            
             next_page = response.css('.next::attr(href)').get()
 
             #CONDITIONS FOR MOVING TO NEXT PAGE
