@@ -15,6 +15,6 @@ Once the tool is installed, navigate to the directory and follow the steps as su
 To start crawling -  `python main.py --start <initial-date>  --end <final-date> --country <country>`
 
 Parameters : 
-- *initial-date* : the initial date from which the flood details would be stored
-- *final-date* : the final date upto which the flood details would be stored
+- *initial-date* : the initial date from which the flood details would be stored. Must be string formatted : "YYYY/MM/DD"
+- *final-date* : the final date upto which the flood details would be stored. Must be string formatted : "YYYY/MM/DD"
 - *country* : the country of interest
